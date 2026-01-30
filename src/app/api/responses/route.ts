@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
 
-// POST - Save quiz responses
+// POST - Save status quiz responses
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     
     // If no database configured, just acknowledge receipt
     if (!sql) {
-      console.log("DB not configured - would have saved:", {
+      console.log("DB not configured - would have saved status quiz:", {
         sessionId,
         score,
         responseCount: answerHistory.length,
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
 
     // Insert session record
     await sql`
-      INSERT INTO sessions (
+      INSERT INTO status_sessions (
         session_id, 
         total_score, 
         total_questions, 
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
     // Insert individual responses
     for (const answer of answerHistory) {
       await sql`
-        INSERT INTO responses (
+        INSERT INTO status_responses (
           session_id,
           vignette_id,
           user_q1,
@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error("Error saving responses:", error);
+    console.error("Error saving status responses:", error);
     return NextResponse.json(
       { error: "Failed to save responses" },
       { status: 500 }
@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// GET - Retrieve aggregate statistics
+// GET - Retrieve aggregate statistics for status quiz
 export async function GET() {
   try {
     const sql = getDb();
@@ -110,7 +110,7 @@ export async function GET() {
         AVG(total_score) as avg_score,
         AVG(deportation_yes_count) as avg_deport_yes,
         SUM(deportation_yes_count) as total_deport_yes
-      FROM sessions
+      FROM status_sessions
     `;
 
     // Get per-vignette stats
@@ -123,7 +123,7 @@ export async function GET() {
         SUM(CASE WHEN deportation_opinion = 'Yes' THEN 1 ELSE 0 END) as deport_yes,
         SUM(CASE WHEN deportation_opinion = 'No' THEN 1 ELSE 0 END) as deport_no,
         SUM(CASE WHEN deportation_opinion = 'Unsure' THEN 1 ELSE 0 END) as deport_unsure
-      FROM responses
+      FROM status_responses
       GROUP BY vignette_id
       ORDER BY vignette_id
     `;
@@ -135,7 +135,7 @@ export async function GET() {
     });
 
   } catch (error) {
-    console.error("Error fetching stats:", error);
+    console.error("Error fetching status stats:", error);
     return NextResponse.json(
       { error: "Failed to fetch statistics" },
       { status: 500 }

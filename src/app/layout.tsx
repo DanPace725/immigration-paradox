@@ -1,23 +1,25 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Navigation } from "@/components/Navigation";
 
 export const metadata: Metadata = {
-  title: "Immigration Paradox | Status vs. Compliance",
+  title: "Immigration Reality Check",
   description:
-    "An interactive tool exploring the gap between legal status and rule compliance in U.S. immigration. Factual scenarios with policy implications.",
+    "Interactive tools exploring common assumptions about U.S. immigration. Test your knowledge on legal status, compliance, and crime statistics.",
   keywords: [
     "immigration",
     "visa",
     "legal status",
     "policy",
     "deportation",
+    "crime statistics",
     "H-1B",
     "asylum",
   ],
   openGraph: {
-    title: "Immigration Paradox",
+    title: "Immigration Reality Check",
     description:
-      "Explore the gap between 'being legal' and 'following the rules' in U.S. immigration.",
+      "Test your assumptions about U.S. immigration against facts and research.",
     type: "website",
   },
 };
@@ -29,7 +31,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <Navigation />
+        {children}
+      </body>
     </html>
   );
 }
