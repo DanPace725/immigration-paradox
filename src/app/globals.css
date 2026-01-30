@@ -58,6 +58,11 @@ body {
 }
 
 @media print {
+  /* Hide EVERYTHING by default */
+  body > *:not(.print-preview-modal) {
+    display: none !important;
+  }
+
   /* Hide navigation and non-print elements */
   nav,
   .no-print {
@@ -70,23 +75,32 @@ body {
     color: black !important;
     font-size: 11pt;
     line-height: 1.4;
+    overflow: visible !important;
   }
 
-  /* Print content styles */
+  /* Make the modal wrapper invisible but show its content */
+  .print-preview-modal {
+    all: unset !important;
+    display: block !important;
+    background: transparent !important;
+  }
+
+  /* Print content - the actual document */
   .print-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: none !important;
     margin: 0 !important;
     padding: 0.5in !important;
     background: white !important;
     color: black !important;
     box-shadow: none !important;
+    border-radius: 0 !important;
   }
 
   /* Ensure colors print correctly */
-  * {
+  .print-content * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
@@ -102,36 +116,32 @@ body {
     break-before: page;
   }
 
-  /* Links should show URL */
-  a[href]:after {
-    content: none; /* Don't show URLs inline - they're in the sources section */
-  }
-
-  /* Typography adjustments */
-  h1 {
+  /* Typography adjustments for print */
+  .print-content h1 {
     font-size: 24pt !important;
   }
 
-  h2 {
+  .print-content h2 {
     font-size: 16pt !important;
   }
 
-  h3 {
+  .print-content h3 {
     font-size: 12pt !important;
   }
 
   /* Compact spacing for print */
-  .space-y-6 > * + * {
+  .print-content .space-y-6 > * + * {
     margin-top: 1rem !important;
   }
 
-  .space-y-4 > * + * {
+  .print-content .space-y-4 > * + * {
     margin-top: 0.75rem !important;
   }
 
-  /* Footer always at bottom */
-  .print-content > div:last-child {
-    margin-top: auto;
+  /* Page settings */
+  @page {
+    size: letter;
+    margin: 0.5in;
   }
 }
 

@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Printer, X } from "lucide-react";
 
 interface StatusResult {
@@ -66,6 +67,16 @@ function formatNumber(num: number): string {
 
 export function PrintableResults(props: PrintableResultsProps) {
   const printRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    // Prevent body scroll when modal is open
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
 
   const handlePrint = () => {
     window.print();
@@ -77,11 +88,13 @@ export function PrintableResults(props: PrintableResultsProps) {
     day: "numeric",
   });
 
+  if (!mounted) return null;
+
   if (props.type === "status") {
     const { score, totalQuestions, answerHistory, scaleImpact, deportYesCount, onClose } = props;
 
-    return (
-      <div className="fixed inset-0 z-50 bg-black/80 overflow-auto print-preview-modal">
+    return createPortal(
+      <div className="fixed inset-0 z-[9999] bg-black/80 overflow-auto print-preview-modal">
         {/* Control bar - hidden when printing */}
         <div className="no-print sticky top-0 bg-slate-900 border-b border-slate-700 p-4 flex items-center justify-between">
           <div className="text-white font-semibold">Print Preview</div>
@@ -220,15 +233,16 @@ export function PrintableResults(props: PrintableResultsProps) {
             <p>This tool presents factual scenarios. No moral judgments are assigned.</p>
           </div>
         </div>
-      </div>
+      </div>,
+      document.body
     );
   }
 
   // Crime quiz results
   const { correctCount, totalQuestions, perceptionGap, answerHistory, questions, onClose } = props;
 
-  return (
-    <div className="fixed inset-0 z-50 bg-black/80 overflow-auto print-preview-modal">
+  return createPortal(
+    <div className="fixed inset-0 z-[9999] bg-black/80 overflow-auto print-preview-modal">
       {/* Control bar - hidden when printing */}
       <div className="no-print sticky top-0 bg-slate-900 border-b border-slate-700 p-4 flex items-center justify-between">
         <div className="text-white font-semibold">Print Preview</div>
@@ -345,6 +359,7 @@ export function PrintableResults(props: PrintableResultsProps) {
           <p>All data from government agencies and peer-reviewed research.</p>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
