@@ -5,7 +5,7 @@ import { Scale, ShieldAlert, ChevronRight, BarChart3 } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center p-4 font-sans">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center p-4 pt-20 font-sans">
       <div className="max-w-3xl w-full">
         {/* Main Header */}
         <div className="text-center mb-12">
