@@ -182,7 +182,7 @@ export default function CrimeQuiz() {
                     <div className="bg-slate-800 p-2.5 rounded-lg border border-slate-700">
                       <BarChart3 size={18} className="text-rose-400" />
                     </div>
-                    <span>8 questions based on published research</span>
+                    <span>{crimeQuestions.length} questions based on published research</span>
                   </li>
                   <li className="flex items-center gap-3 text-slate-300">
                     <div className="bg-slate-800 p-2.5 rounded-lg border border-slate-700">
@@ -304,10 +304,70 @@ export default function CrimeQuiz() {
                   <strong className="text-slate-300">Key Takeaway:</strong> The
                   consistent finding across 150 years of data is that immigrants
                   have lower crime rates than native-born citizens. This gap has
-                  actually widened since 1960. The "immigrant crime wave"
+                  actually widened since 1960. The &quot;immigrant crime wave&quot;
                   narrative is not supported by aggregate crime statistics from
                   any major data source.
                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Connecting the Dots Section */}
+          <div className="bg-gradient-to-b from-slate-800/60 to-slate-900/60 backdrop-blur border border-slate-700/50 rounded-2xl shadow-xl overflow-hidden mb-8">
+            <div className="bg-gradient-to-r from-amber-900/20 via-slate-800/50 to-amber-900/20 p-6 border-b border-slate-700/50">
+              <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                <Lightbulb className="text-amber-400" size={24} />
+                Connecting the Dots
+              </h3>
+              <p className="text-slate-400 text-sm mt-1">
+                Questions worth considering
+              </p>
+            </div>
+            
+            <div className="p-6 space-y-6">
+              <div className="space-y-4">
+                <div className="flex gap-3">
+                  <span className="text-amber-500 font-bold text-lg">1.</span>
+                  <p className="text-slate-300">
+                    If the data has consistently shown lower immigrant crime rates for 150 years, 
+                    why does the opposite perception persist? What keeps renewing it?
+                  </p>
+                </div>
+                
+                <div className="flex gap-3">
+                  <span className="text-amber-500 font-bold text-lg">2.</span>
+                  <p className="text-slate-300">
+                    When a crime by an immigrant receives national coverage while statistically 
+                    identical crimes by citizens don&apos;t, what impression does that create over time?
+                  </p>
+                </div>
+                
+                <div className="flex gap-3">
+                  <span className="text-amber-500 font-bold text-lg">3.</span>
+                  <p className="text-slate-300">
+                    ICE detention costs ~$60,000 per person annually, with 73% of detainees having 
+                    no criminal record. Who profits from this system, and how might that influence 
+                    the narratives we hear?
+                  </p>
+                </div>
+                
+                <div className="flex gap-3">
+                  <span className="text-amber-500 font-bold text-lg">4.</span>
+                  <p className="text-slate-300">
+                    The same &quot;criminal immigrant&quot; narrative was applied to Italians and Irish 
+                    a century ago—and proved false then too. What does the pattern&apos;s repetition 
+                    suggest about its origins?
+                  </p>
+                </div>
+              </div>
+              
+              <div className="bg-slate-900/50 border border-slate-700/50 p-4 rounded-xl">
+                <p className="text-slate-400 text-sm leading-relaxed">
+                  <strong className="text-slate-300">A perception gap this large doesn&apos;t happen by accident.</strong>{" "}
+                  When public belief consistently contradicts publicly available data, it&apos;s worth asking: 
+                  who benefits from that gap, and what resources are being directed based on a 
+                  narrative rather than evidence?
+                </p>
               </div>
             </div>
           </div>
@@ -418,6 +478,16 @@ export default function CrimeQuiz() {
                     <p className="text-slate-400 text-sm mb-4">
                       {question.explanation}
                     </p>
+
+                    {/* Reflection prompt */}
+                    {question.reflection && (
+                      <div className="bg-amber-950/20 border border-amber-800/30 rounded-lg p-3 mb-4">
+                        <p className="text-amber-200/80 text-sm italic flex items-start gap-2">
+                          <span className="text-amber-500">💭</span>
+                          {question.reflection}
+                        </p>
+                      </div>
+                    )}
 
                     {/* Expandable sources */}
                     <button
@@ -569,6 +639,16 @@ export default function CrimeQuiz() {
                     <p className="text-slate-300 text-sm">
                       {currentQuestion.explanation}
                     </p>
+                    
+                    {/* Reflection prompt */}
+                    {currentQuestion.reflection && (
+                      <div className="mt-4 pt-4 border-t border-slate-700/50">
+                        <p className="text-slate-400 text-sm italic flex items-start gap-2">
+                          <span className="text-amber-500 mt-0.5">💭</span>
+                          {currentQuestion.reflection}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
