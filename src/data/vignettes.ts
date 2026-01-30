@@ -33,7 +33,7 @@ export const vignettes: Vignette[] = [
     sources: [
       {
         title: "DHS SEVIS by the Numbers (2023–2024)",
-        url: "https://studyinthestates.dhs.gov/sevis-data",
+        url: "https://studyinthestates.dhs.gov/2025/06/read-the-2024-sevis-by-the-numbers-report",
         description: "~1.58 million active F-1 and M-1 student records",
       },
       {
@@ -117,7 +117,7 @@ export const vignettes: Vignette[] = [
     sources: [
       {
         title: "USCIS Policy Manual - Lawful Status vs Authorized Stay",
-        url: "https://www.uscis.gov/policy-manual",
+        url: "https://www.uscis.gov/policy-manual/volume-7-part-b-chapter-3",
         description: "Vol. 7, Part B, Ch. 3 explains the legal distinction",
       },
       {
@@ -157,12 +157,12 @@ export const vignettes: Vignette[] = [
     sources: [
       {
         title: "U.S. Department of State Visa Bulletin",
-        url: "https://travel.state.gov/visa-bulletin",
+        url: "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin.html",
         description: "Shows per-country backlogs exceeding 10-20 years",
       },
       {
         title: "Morgan Lewis Visa Bulletin Analyses",
-        url: "https://www.morganlewis.com",
+        url: "https://www.morganlewis.com/pubs/2025/09/us-department-of-state-releases-october-2025-visa-bulletin",
         description: "EB-2 and EB-3 category wait time projections",
       },
     ],
@@ -199,12 +199,12 @@ export const vignettes: Vignette[] = [
     sources: [
       {
         title: "American Immigration Council - Asylum Fact Sheet",
-        url: "https://www.americanimmigrationcouncil.org",
+        url: "https://www.americanimmigrationcouncil.org/fact-sheet/asylum-united-states/",
         description: "~1.45 million affirmative asylum applications pending (2024)",
       },
       {
         title: "TRAC Immigration - Asylum Court Backlogs",
-        url: "https://trac.syr.edu",
+        url: "https://tracreports.org/reports/766/",
         description: "Millions of additional cases pending in immigration court",
       },
     ],
@@ -244,7 +244,7 @@ export const vignettes: Vignette[] = [
       },
       {
         title: "American Immigration Council - CSPA Analysis",
-        url: "https://www.americanimmigrationcouncil.org",
+        url: "https://www.americanimmigrationcouncil.org/blog/uscis-updates-key-cspa-interpretation-to-protect-some-immigrant-youth-but-visa-backlogs-continue-to-cause-hardships/",
         description: "Aging out is a predictable result of prolonged backlogs",
       },
     ],

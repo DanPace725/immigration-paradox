@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Scale, ShieldAlert } from "lucide-react";
+import { Home, Scale, ShieldAlert, BarChart3 } from "lucide-react";
 
 export function Navigation() {
   const pathname = usePathname();
@@ -11,6 +11,7 @@ export function Navigation() {
     { href: "/", label: "Home", icon: Home },
     { href: "/status", label: "Status Quiz", icon: Scale },
     { href: "/crime", label: "Crime Quiz", icon: ShieldAlert },
+    { href: "/insights", label: "Insights", icon: BarChart3 },
   ];
 
   return (

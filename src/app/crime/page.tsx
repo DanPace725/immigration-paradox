@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import {
   ChevronRight,
@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { crimeQuestions, calculatePerceptionGap } from "@/data/crimeQuestions";
 import { ShareResults } from "@/components/ShareResults";
+import { PrintableResults } from "@/components/PrintableResults";
 
 // Generate a simple UUID for session tracking
 function generateSessionId(): string {
@@ -46,8 +47,8 @@ export default function CrimeQuiz() {
   const [answerHistory, setAnswerHistory] = useState<UserAnswer[]>([]);
   const [expandedSources, setExpandedSources] = useState<number | null>(null);
   const [sessionId, setSessionId] = useState<string>("");
+  const [showPrintModal, setShowPrintModal] = useState(false);
 
-  const resultsRef = useRef<HTMLDivElement>(null);
   const currentQuestion = crimeQuestions[currentIndex];
 
   // Submit responses to the API
@@ -227,8 +228,8 @@ export default function CrimeQuiz() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 py-12 px-4 pt-20 font-sans">
         <div className="max-w-4xl mx-auto">
-          {/* Shareable Results Section */}
-          <div ref={resultsRef}>
+          {/* Results Summary */}
+          <div>
             <div className="bg-gradient-to-b from-slate-800/80 to-slate-900/80 backdrop-blur border border-slate-700/50 rounded-2xl shadow-2xl overflow-hidden mb-8">
               <div className="bg-gradient-to-r from-rose-900/20 via-slate-800/50 to-rose-900/20 p-8 text-center border-b border-slate-700/50">
                 <p className="text-rose-400 text-sm font-medium mb-2">
@@ -241,7 +242,7 @@ export default function CrimeQuiz() {
                   {correctCount} / {crimeQuestions.length}
                 </div>
                 <p className="text-slate-400">
-                  Your intuitions matched the research data
+                  Questions where intuition matched data
                 </p>
               </div>
 
@@ -313,11 +314,33 @@ export default function CrimeQuiz() {
 
           {/* Share Buttons */}
           <div className="mb-8">
-            <ShareResults
-              targetRef={resultsRef}
-              filename="crime-statistics-results"
-            />
+            <ShareResults onPrintClick={() => setShowPrintModal(true)} />
           </div>
+
+          {/* See How Others Responded */}
+          <div className="mb-8 text-center">
+            <Link
+              href="/insights"
+              className="inline-flex items-center gap-2 text-rose-400 hover:text-rose-300 transition-colors group"
+            >
+              <BarChart3 size={18} />
+              <span>See how others responded</span>
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+
+          {/* Print Modal */}
+          {showPrintModal && (
+            <PrintableResults
+              type="crime"
+              correctCount={correctCount}
+              totalQuestions={crimeQuestions.length}
+              perceptionGap={results.gapPercentage}
+              answerHistory={answerHistory}
+              questions={crimeQuestions}
+              onClose={() => setShowPrintModal(false)}
+            />
+          )}
 
           {/* Individual Results */}
           <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import {
   CheckCircle,
@@ -19,11 +19,13 @@ import {
   HelpCircle,
   Home,
   ArrowRight,
+  BarChart3,
 } from "lucide-react";
 import { vignettes, calculateScaleImpact, formatNumber } from "@/data/vignettes";
 import { pushbackResponses, closingNote } from "@/data/pushback";
 import type { UserAnswers, AnswerHistoryItem } from "@/lib/types";
 import { ShareResults } from "@/components/ShareResults";
+import { PrintableResults } from "@/components/PrintableResults";
 
 // Generate a simple UUID for session tracking
 function generateSessionId(): string {
@@ -50,8 +52,7 @@ export default function StatusQuiz() {
   const [expandedPushback, setExpandedPushback] = useState<number | null>(null);
   const [sessionId, setSessionId] = useState<string>("");
   const [submissionStatus, setSubmissionStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
-  
-  const resultsRef = useRef<HTMLDivElement>(null);
+  const [showPrintModal, setShowPrintModal] = useState(false);
 
   const currentVignette = vignettes[currentIndex];
 
@@ -276,8 +277,8 @@ export default function StatusQuiz() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 py-12 px-4 pt-20 font-sans">
         <div className="max-w-4xl mx-auto">
-          {/* Shareable Results Section */}
-          <div ref={resultsRef}>
+          {/* Results Summary */}
+          <div>
             {/* Summary Header */}
             <div className="bg-gradient-to-b from-slate-800/80 to-slate-900/80 backdrop-blur border border-slate-700/50 rounded-2xl shadow-2xl overflow-hidden mb-8">
               <div className="bg-gradient-to-r from-cyan-900/20 via-slate-800/50 to-violet-900/20 p-8 text-center border-b border-slate-700/50">
@@ -336,8 +337,33 @@ export default function StatusQuiz() {
 
           {/* Share Buttons */}
           <div className="mb-8">
-            <ShareResults targetRef={resultsRef} filename="immigration-paradox-results" />
+            <ShareResults onPrintClick={() => setShowPrintModal(true)} />
           </div>
+
+          {/* See How Others Responded */}
+          <div className="mb-8 text-center">
+            <Link
+              href="/insights"
+              className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors group"
+            >
+              <BarChart3 size={18} />
+              <span>See how others responded</span>
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+
+          {/* Print Modal */}
+          {showPrintModal && (
+            <PrintableResults
+              type="status"
+              score={score}
+              totalQuestions={vignettes.length}
+              answerHistory={answerHistory}
+              scaleImpact={scaleImpact}
+              deportYesCount={deportYesCount}
+              onClose={() => setShowPrintModal(false)}
+            />
+          )}
 
           {/* Individual Results */}
           <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">

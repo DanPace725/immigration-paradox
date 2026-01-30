@@ -47,3 +47,104 @@ body {
 .animate-fade-in {
   animation: fadeIn 0.4s ease-out forwards;
 }
+
+/* =============================================
+   PRINT STYLES
+   ============================================= */
+
+/* Custom class for elements to hide when printing */
+.no-print {
+  display: block;
+}
+
+@media print {
+  /* Hide navigation and non-print elements */
+  nav,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Reset body styles for print */
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 11pt;
+    line-height: 1.4;
+  }
+
+  /* Print content styles */
+  .print-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: 0 !important;
+    padding: 0.5in !important;
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+  }
+
+  /* Ensure colors print correctly */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Page breaks */
+  .page-break-inside-avoid {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .page-break-before {
+    page-break-before: always;
+    break-before: page;
+  }
+
+  /* Links should show URL */
+  a[href]:after {
+    content: none; /* Don't show URLs inline - they're in the sources section */
+  }
+
+  /* Typography adjustments */
+  h1 {
+    font-size: 24pt !important;
+  }
+
+  h2 {
+    font-size: 16pt !important;
+  }
+
+  h3 {
+    font-size: 12pt !important;
+  }
+
+  /* Compact spacing for print */
+  .space-y-6 > * + * {
+    margin-top: 1rem !important;
+  }
+
+  .space-y-4 > * + * {
+    margin-top: 0.75rem !important;
+  }
+
+  /* Footer always at bottom */
+  .print-content > div:last-child {
+    margin-top: auto;
+  }
+}
+
+/* Print preview modal scrollbar */
+.print-preview-modal::-webkit-scrollbar {
+  width: 12px;
+}
+
+.print-preview-modal::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+.print-preview-modal::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 6px;
+}
